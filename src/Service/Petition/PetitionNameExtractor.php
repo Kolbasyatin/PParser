@@ -7,7 +7,7 @@ namespace App\Service\Petition;
 class PetitionNameExtractor
 {
 
-    /** @var Parser */
+    /** @var ParserInterface */
     private $parser;
 
     /** @var HolderInterface */
@@ -15,10 +15,10 @@ class PetitionNameExtractor
 
     /**
      * PetitionNameExtractor constructor.
-     * @param Parser $parser
+     * @param ParserInterface $parser
      * @param HolderInterface $holder
      */
-    public function __construct(Parser $parser, HolderInterface $holder)
+    public function __construct(ParserInterface $parser, HolderInterface $holder)
     {
         $this->parser = $parser;
         $this->holder = $holder;

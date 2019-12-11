@@ -14,7 +14,6 @@ class Holder implements HolderInterface
         foreach ($data as $name) {
             $string = implode('  :  ', array_values($name));
             $fileSystem->appendToFile('names.txt', $string."\n");
-
         }
     }
 

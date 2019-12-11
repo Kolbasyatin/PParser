@@ -9,10 +9,17 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 class PetitionNameExtractorTest extends WebTestCase
 {
 
-    public function testExtractNames()
+    public function testRadaExtractNames()
     {
         self::bootKernel();
-        $service = self::$container->get('test.app.extractor');
-        $service->extractNames(5113, 199);
+        $service = self::$container->get('test.app.rada.extractor');
+        $service->extractNames(79326, 257);
+    }
+
+    public function testPresidentExtractNames()
+    {
+        self::bootKernel();
+        $service = self::$container->get('test.app.president.extractor');
+        $service->extractNames(79326, 259);
     }
 }

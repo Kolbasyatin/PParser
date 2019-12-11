@@ -1,8 +1,22 @@
 services:
-  test.app.parser:
-    alias: App\Service\Petition\Parser
+  test.app.rada.parser:
+    alias: App\Service\Petition\RadaParser
     public: true
 
-  test.app.extractor:
-    alias: App\Service\Petition\PetitionNameExtractor
+  test.app.president.parser:
+    alias: App\Service\Petition\PresidentParser
+    public: true
+
+  test.app.rada.extractor:
+    class: App\Service\Petition\PetitionNameExtractor
+    arguments:
+      $parser: '@test.app.rada.parser'
+      $holder: App\Service\Petition\Holder
+    public: true
+
+  test.app.president.extractor:
+    class: App\Service\Petition\PetitionNameExtractor
+    autowire: true
+    arguments:
+      $parser: '@test.app.president.parser'
     public: true

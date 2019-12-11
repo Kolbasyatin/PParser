@@ -5,14 +5,16 @@ namespace App\Service\Petition;
 
 
 use Goutte\Client;
-use Symfony\Component\DomCrawler\Crawler;
 
-class Parser
+/**
+ * Class Parser
+ * @package App\Service\Petition
+ */
+abstract class Parser implements ParserInterface
+
 {
-    /** @var string  */
-    private const PETITION_PAGE = 'https://itd.rada.gov.ua/services/Petition/Index' ;
     /** @var Client */
-    private $client;
+    protected $client;
 
     /**
      * Parser constructor.
@@ -23,27 +25,14 @@ class Parser
         $this->client = $client;
     }
 
+    abstract function getUrl(int $petitionNumber, int $page): string;
+
+    abstract function doParse(string $uri):array ;
 
     public function parse(int $number, int $page): array
     {
-        $data = [];
-        $url = sprintf('%s/%s?page=%s', self::PETITION_PAGE, $number, $page);
+        $url = $this->getUrl($number, $page);
 
-        $crawler = $this->client->request('GET', $url);
-        $crawler->filter('.perelik-body .view-top .view-top-left')->each(function ($node) use (&$data) {
-            /** @var Crawler $node */
-            $node->filter('div')->each(
-                function ($node) use (&$data){
-                    /** @var Crawler $node */
-                    $data[] = [
-                        'time' => $node->filter('span.time')->text(),
-                        'name' => $node->filter('span.name')->text(),
-                    ];
-                }
-            );
-
-        });
-
-        return $data;
+        return $this->doParse($url);
     }
 }
